@@ -4,7 +4,7 @@ import InputForm from './Components/InputForm/InputForm';
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
+      <header >
         <h1>XYZ Engine Project</h1>
       </header>
       <main>

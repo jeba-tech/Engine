@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import Project from '../Project/Project';
 import ProjectInfo from '../ProjectInfo/ProjectInfo';
-
+import Result from '../Result/Result';
 
 const InputForm = () => {
       const [formData, setFormData] = useState({
@@ -20,9 +20,11 @@ const InputForm = () => {
             maxZ: 0,
             minZ: 0,
       });
+      const [showResultPage, setShowResultPage] = useState(false);
 
-
-
+      const showResult = () => {
+            setShowResultPage(true);
+      };
       const onInputChange = (e) => {
             const { name, value } = e.target;
 
@@ -100,6 +102,8 @@ const InputForm = () => {
       return (
             <div>
                   <Project formData={formData} onInputChange={onInputChange} onFileUpload={onFileUpload} />  <ProjectInfo formData={formData} maxMinValues={maxMinValues} onInputChange={onInputChange} />
+                  <button onClick={showResult}>Result</button>
+                  {showResultPage && <Result formData={formData} maxMinValues={maxMinValues} />}
             </div>
       );
 
