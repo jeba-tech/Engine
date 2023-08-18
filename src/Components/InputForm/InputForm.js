@@ -98,12 +98,32 @@ const InputForm = () => {
       };
 
 
+      const printAsPDF = () => {
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write('<html><head><title>Project Summary</title></head><body>');
+            printWindow.document.write(`<h2>Project Summary</h2>`);
+            printWindow.document.write(`<p>Project Name: ${formData.projectName}</p>`);
+            console.log("formData", formData)
+            printWindow.document.write(`<p>Project Name: ${formData.projectDescription}</p>`);
+            printWindow.document.write(`<p>Project Name: ${formData.client}</p>`);
+            printWindow.document.write(`<p>Project Name: ${formData.contractor}</p>`);
+            printWindow.document.write(`<p>Project Name: ${maxMinValues.maxX}</p>`);
+            printWindow.document.write(`<p>Project Name: ${maxMinValues.minX}</p>`);
+            printWindow.document.write(`<p>Project Name: ${maxMinValues.maxY}</p>`);
+            printWindow.document.write(`<p>Project Name: ${maxMinValues.minY}</p>`);
+            printWindow.document.write(`<p>Project Name: ${maxMinValues.maxZ}</p>`);
+            printWindow.document.write(`<p>Project Name: ${maxMinValues.minZ}</p>`);
 
+            printWindow.document.write('</body></html>');
+            printWindow.document.close();
+            printWindow.print();
+      };
       return (
             <div>
                   <Project formData={formData} onInputChange={onInputChange} onFileUpload={onFileUpload} />  <ProjectInfo formData={formData} maxMinValues={maxMinValues} onInputChange={onInputChange} />
                   <button onClick={showResult}>Result</button>
                   {showResultPage && <Result formData={formData} maxMinValues={maxMinValues} />}
+                  <button onClick={printAsPDF}>Print PDF</button>
             </div>
       );
 
