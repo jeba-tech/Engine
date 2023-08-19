@@ -104,15 +104,15 @@ const InputForm = () => {
             printWindow.document.write(`<h2>Project Summary</h2>`);
             printWindow.document.write(`<p>Project Name: ${formData.projectName}</p>`);
             console.log("formData", formData)
-            printWindow.document.write(`<p>Project Name: ${formData.projectDescription}</p>`);
-            printWindow.document.write(`<p>Project Name: ${formData.client}</p>`);
-            printWindow.document.write(`<p>Project Name: ${formData.contractor}</p>`);
-            printWindow.document.write(`<p>Project Name: ${maxMinValues.maxX}</p>`);
-            printWindow.document.write(`<p>Project Name: ${maxMinValues.minX}</p>`);
-            printWindow.document.write(`<p>Project Name: ${maxMinValues.maxY}</p>`);
-            printWindow.document.write(`<p>Project Name: ${maxMinValues.minY}</p>`);
-            printWindow.document.write(`<p>Project Name: ${maxMinValues.maxZ}</p>`);
-            printWindow.document.write(`<p>Project Name: ${maxMinValues.minZ}</p>`);
+            printWindow.document.write(`<p>Project Description:: ${formData.projectDescription}</p>`);
+            printWindow.document.write(`<p>Client:: ${formData.client}</p>`);
+            printWindow.document.write(`<p>Contractor:: ${formData.contractor}</p>`);
+            printWindow.document.write(`<p>Max X: ${maxMinValues.maxX}</p>`);
+            printWindow.document.write(`<p>Min X: ${maxMinValues.minX}</p>`);
+            printWindow.document.write(`<p>Max Y: ${maxMinValues.maxY}</p>`);
+            printWindow.document.write(`<p>Min Y: ${maxMinValues.minY}</p>`);
+            printWindow.document.write(`<p>Max Ze: ${maxMinValues.maxZ}</p>`);
+            printWindow.document.write(`<p>Min Z: ${maxMinValues.minZ}</p>`);
 
             printWindow.document.write('</body></html>');
             printWindow.document.close();
