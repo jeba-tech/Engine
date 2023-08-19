@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import Project from '../Project/Project';
 import ProjectInfo from '../ProjectInfo/ProjectInfo';
 import Result from '../Result/Result';
-
+import { Chart } from 'chart.js';
 const InputForm = () => {
       const [formData, setFormData] = useState({
             projectName: '',
@@ -21,7 +21,9 @@ const InputForm = () => {
             minZ: 0,
       });
       const [showResultPage, setShowResultPage] = useState(false);
-
+      const [chartData, setChartData] = useState([]);
+      const [kpValues, setkpValues] = useState([]);
+      const [xValues, setxValues] = useState([]);
       const showResult = () => {
             setShowResultPage(true);
       };
@@ -52,7 +54,6 @@ const InputForm = () => {
                   reader.readAsText(file);
             }
       };
-
       const handleFileRead = (e) => {
             const content = e.target.result;
             const lines = content.split('\n');
@@ -60,42 +61,121 @@ const InputForm = () => {
             // Assuming the first line contains headers: KP, X, Y, Z
             const header = lines[0].split(',');
 
-            // Find the index of X, Y, and Z columns
+            // Find the index of KP and X columns
+            const kpIndex = header.indexOf('KP');
             const xIndex = header.indexOf('X');
             const yIndex = header.indexOf('Y');
             const zIndex = header.indexOf('Z');
 
-            // Initialize max and min values
-            let maxX = -Infinity, minX = Infinity,
-                  maxY = -Infinity, minY = Infinity,
-                  maxZ = -Infinity, minZ = Infinity;
+            // Initialize chart data array
+            const newChartData = [];
 
-            // Loop through the lines to find max and min values
+            // Loop through the lines to collect chart data
             for (let i = 1; i < lines.length; i++) {
                   const values = lines[i].split(',');
+                  const kp = parseFloat(values[kpIndex]);
                   const x = parseFloat(values[xIndex]);
                   const y = parseFloat(values[yIndex]);
                   const z = parseFloat(values[zIndex]);
 
-                  if (!isNaN(x) && !isNaN(y) && !isNaN(z)) {
-                        maxX = Math.max(maxX, x);
-                        minX = Math.min(minX, x);
-                        maxY = Math.max(maxY, y);
-                        minY = Math.min(minY, y);
-                        maxZ = Math.max(maxZ, z);
-                        minZ = Math.min(minZ, z);
+                  if (!isNaN(kp) && !isNaN(x)) {
+                        newChartData.push({ kp, x, y, z });
                   }
             }
 
+            setChartData(newChartData);
+
+            // Calculate max and min values for KP and X
+            const kpValues = newChartData.map((point) => point.kp);
+            const xValues = newChartData.map((point) => point.x);
+            const yValues = newChartData.map((point) => point.y);
+            const zValues = newChartData.map((point) => point.z);
+            setkpValues(kpValues);
+            setxValues(xValues);
+            console.log("kpValues", kpValues)
+            console.log("xValues", xValues)
+            new Chart("myChart", {
+                  type: "line", // Make sure the type is "line"
+                  data: {
+                        labels: kpValues,
+                        datasets: [
+                              {
+                                    label: "X Values",
+                                    backgroundColor: "rgba(0, 0, 255, 0.2)",
+                                    borderColor: "rgba(0, 0, 255, 1.0)",
+                                    data: xValues,
+                              },
+                        ],
+                  },
+                  options: {}, // You can customize the options here
+            });
+
+            const maxKP = Math.max(...kpValues);
+            const minKP = Math.min(...kpValues);
+            const maxX = Math.max(...xValues);
+            const minX = Math.min(...xValues);
+            const maxY = Math.max(...yValues);
+            const minY = Math.min(...yValues);
+            const maxZ = Math.max(...zValues);
+            const minZ = Math.min(...zValues);
+
+
+
             setMaxMinValues({
+                  maxKP: maxKP,
+                  minKP: minKP,
                   maxX: maxX,
                   minX: minX,
                   maxY: maxY,
                   minY: minY,
                   maxZ: maxZ,
-                  minZ: minZ,
+                  minZ: minZ
             });
       };
+      console.log("chartData", chartData)
+      // const handleFileRead = (e) => {
+      //       const content = e.target.result;
+      //       const lines = content.split('\n');
+
+      //       // Assuming the first line contains headers: KP, X, Y, Z
+      //       const header = lines[0].split(',');
+
+      //       // Find the index of X, Y, and Z columns
+      //       const xIndex = header.indexOf('X');
+      //       const yIndex = header.indexOf('Y');
+      //       const zIndex = header.indexOf('Z');
+
+      //       // Initialize max and min values
+      //       let maxX = -Infinity, minX = Infinity,
+      //             maxY = -Infinity, minY = Infinity,
+      //             maxZ = -Infinity, minZ = Infinity;
+
+      //       // Loop through the lines to find max and min values
+      //       for (let i = 1; i < lines.length; i++) {
+      //             const values = lines[i].split(',');
+      //             const x = parseFloat(values[xIndex]);
+      //             const y = parseFloat(values[yIndex]);
+      //             const z = parseFloat(values[zIndex]);
+
+      //             if (!isNaN(x) && !isNaN(y) && !isNaN(z)) {
+      //                   maxX = Math.max(maxX, x);
+      //                   minX = Math.min(minX, x);
+      //                   maxY = Math.max(maxY, y);
+      //                   minY = Math.min(minY, y);
+      //                   maxZ = Math.max(maxZ, z);
+      //                   minZ = Math.min(minZ, z);
+      //             }
+      //       }
+
+      //       setMaxMinValues({
+      //             maxX: maxX,
+      //             minX: minX,
+      //             maxY: maxY,
+      //             minY: minY,
+      //             maxZ: maxZ,
+      //             minZ: minZ,
+      //       });
+      // };
 
 
       const printAsPDF = () => {
@@ -122,10 +202,18 @@ const InputForm = () => {
             <div>
 
                   <div className='d-flex justify-content-center'>
-                        <div className='m-5' >
-                              <button className='btn btn-dark' onClick={printAsPDF}>Print PDF</button>
-                        </div>
                         <div>
+                              <div className='m-5' >
+                                    <button className='btn btn-dark' onClick={printAsPDF}>Print PDF</button>
+                              </div>
+                              <div style={{ backgroundColor: 'beige' }} className='me-5'>
+                                    <h6>Chart</h6>
+                                    <canvas id="myChart" style={{ width: "100%", maxWidth: "800px" }}></canvas>
+                              </div>
+                        </div>
+
+
+                        <div >
                               <Project formData={formData} onInputChange={onInputChange} onFileUpload={onFileUpload} />
                         </div>
                         <div>
