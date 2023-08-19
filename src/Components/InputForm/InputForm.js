@@ -61,7 +61,7 @@ const InputForm = () => {
             // Assuming the first line contains headers: KP, X, Y, Z
             const header = lines[0].split(',');
 
-            // Find the index of KP and X columns
+            // Find the index of KP and X ,Y , Z columns
             const kpIndex = header.indexOf('KP');
             const xIndex = header.indexOf('X');
             const yIndex = header.indexOf('Y');
@@ -85,7 +85,7 @@ const InputForm = () => {
 
             setChartData(newChartData);
 
-            // Calculate max and min values for KP and X
+            // Calculation of max and min values for KP and X ,Y, Z
             const kpValues = newChartData.map((point) => point.kp);
             const xValues = newChartData.map((point) => point.x);
             const yValues = newChartData.map((point) => point.y);
@@ -95,7 +95,7 @@ const InputForm = () => {
             console.log("kpValues", kpValues)
             console.log("xValues", xValues)
             new Chart("myChart", {
-                  type: "line", // Make sure the type is "line"
+                  type: "line",
                   data: {
                         labels: kpValues,
                         datasets: [
@@ -107,7 +107,7 @@ const InputForm = () => {
                               },
                         ],
                   },
-                  options: {}, // You can customize the options here
+                  options: {},
             });
 
             const maxKP = Math.max(...kpValues);
@@ -133,49 +133,6 @@ const InputForm = () => {
             });
       };
       console.log("chartData", chartData)
-      // const handleFileRead = (e) => {
-      //       const content = e.target.result;
-      //       const lines = content.split('\n');
-
-      //       // Assuming the first line contains headers: KP, X, Y, Z
-      //       const header = lines[0].split(',');
-
-      //       // Find the index of X, Y, and Z columns
-      //       const xIndex = header.indexOf('X');
-      //       const yIndex = header.indexOf('Y');
-      //       const zIndex = header.indexOf('Z');
-
-      //       // Initialize max and min values
-      //       let maxX = -Infinity, minX = Infinity,
-      //             maxY = -Infinity, minY = Infinity,
-      //             maxZ = -Infinity, minZ = Infinity;
-
-      //       // Loop through the lines to find max and min values
-      //       for (let i = 1; i < lines.length; i++) {
-      //             const values = lines[i].split(',');
-      //             const x = parseFloat(values[xIndex]);
-      //             const y = parseFloat(values[yIndex]);
-      //             const z = parseFloat(values[zIndex]);
-
-      //             if (!isNaN(x) && !isNaN(y) && !isNaN(z)) {
-      //                   maxX = Math.max(maxX, x);
-      //                   minX = Math.min(minX, x);
-      //                   maxY = Math.max(maxY, y);
-      //                   minY = Math.min(minY, y);
-      //                   maxZ = Math.max(maxZ, z);
-      //                   minZ = Math.min(minZ, z);
-      //             }
-      //       }
-
-      //       setMaxMinValues({
-      //             maxX: maxX,
-      //             minX: minX,
-      //             maxY: maxY,
-      //             minY: minY,
-      //             maxZ: maxZ,
-      //             minZ: minZ,
-      //       });
-      // };
 
 
       const printAsPDF = () => {
