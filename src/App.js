@@ -3,11 +3,11 @@ import './App.css';
 import InputForm from './Components/InputForm/InputForm';
 function App() {
   return (
-    <div className="App">
+    <div className=" bg-secondary" >
       <header >
-        <h1>XYZ Engine Project</h1>
+        <h1 className='text-white d-flex justify-content-center mb-5 p-5'>XYZ Engine Project</h1>
       </header>
-      <main>
+      <main >
 
         <InputForm></InputForm>
       </main>

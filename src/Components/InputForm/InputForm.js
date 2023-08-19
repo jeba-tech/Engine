@@ -120,10 +120,26 @@ const InputForm = () => {
       };
       return (
             <div>
-                  <Project formData={formData} onInputChange={onInputChange} onFileUpload={onFileUpload} />  <ProjectInfo formData={formData} maxMinValues={maxMinValues} onInputChange={onInputChange} />
-                  <button onClick={showResult}>Result</button>
-                  {showResultPage && <Result formData={formData} maxMinValues={maxMinValues} />}
-                  <button onClick={printAsPDF}>Print PDF</button>
+
+                  <div className='d-flex justify-content-center'>
+                        <div className='m-5' >
+                              <button className='btn btn-dark' onClick={printAsPDF}>Print PDF</button>
+                        </div>
+                        <div>
+                              <Project formData={formData} onInputChange={onInputChange} onFileUpload={onFileUpload} />
+                        </div>
+                        <div>
+                              <ProjectInfo formData={formData} maxMinValues={maxMinValues} onInputChange={onInputChange} />
+                        </div>
+                        <div className='ms-5 mt-5 pt-3'>
+                              <button className='btn btn-info ' onClick={showResult}>Result</button>
+                              {showResultPage && <Result formData={formData} maxMinValues={maxMinValues} />}
+                        </div>
+
+                  </div>
+
+
+
             </div>
       );
 

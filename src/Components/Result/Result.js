@@ -2,9 +2,9 @@ import React from 'react';
 
 const Result = ({ formData, maxMinValues }) => {
       return (
-            <div>
-                  <h2>Result:</h2>
-                  <table>
+            <div className='mt-5 text-white'>
+
+                  <table >
                         <tbody>
                               <tr>
                                     <td>Project Name:</td>
